@@ -1,10 +1,11 @@
-# htomi425.github.io
-github.ioを使うためだけに用意したリポジトリです。<br>
-基本的にどのような目的で使うかはまだ決まってません。<br>
+# **htomi425.github.io**
+## **github.ioを使うためだけに用意したリポジトリです。**
+基本的にどのような目的で使うかはまだ決まってません。
 
-[リポジトリURL](https::/github.com/htomi425/htomi425.github.io)<br>
-あとMarkdownの書き方わからん<br>
+[リポジトリ]
 
-<b>~~URL貼れん。~~ Markdown嫌いだ。もう書きたくもない。</b>
-
-とあるツールを使いどうにかしました。<br>
+## **GitLabで見てる方へ**
+とりあえずページは[ここから行けます]。
+<!-- リンク一覧 -->
+[リポジトリ]:https::/github.com/htomi425/htomi425.github.io
+[ここから行けます]:https://htomi425.github.io
