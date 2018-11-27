@@ -2,7 +2,8 @@
 ## **github.ioを使うためだけに用意したリポジトリです。**
 基本的にどのような目的で使うかはまだ決まってません。
 
-[リポジトリ](https://github.com/htomi425/htomi425.github.io)
+[GitHub リポジトリ](https://github.com/htomi425/htomi425.github.io)  
+[GitLab リポジトリ](https://gitlab.com/htomi425/htomi425.github.io)
 
 ## **更新情報**
 
