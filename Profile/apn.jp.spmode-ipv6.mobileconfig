@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>ConsentText</key>
+		<dict>
+			<key>default</key>
+			<string>これはdocomo/ahamoをご利用中のお客様向けプロファイルとなります｡
+その他回線をご利用のお客様は適用対象外となります｡
+
+このプロファイルで設定するAPNは下記の通りとなります｡
+
+APN: http://spmode.ne.jp
+Cellular Payload
+Protocol: IPv6</string>
+		</dict>
+		<key>PayloadContent</key>
+		<array>
+			<dict>
+				<key>AllowedProtocolMaskInDomesticRoaming</key>
+				<integer>3</integer>
+				<key>APNs</key>
+				<array>
+					<dict>
+						<key>AllowedProtocolMask</key>
+						<integer>2</integer>
+						<key>AllowedProtocolMaskInDomesticRoaming</key>
+						<integer>3</integer>
+						<key>AllowedProtocolMaskInRoaming</key>
+						<integer>3</integer>
+						<key>DefaultProtocolMask</key>
+						<integer>2</integer>
+						<key>EnableXLAT464</key>
+						<false />
+						<key>Name</key>
+						<string>spmode.ne.jp</string>
+					</dict>
+				</array>
+				<key>AttachAPN</key>
+				<dict>
+					<key>AllowedProtocolMask</key>
+					<integer>2</integer>
+					<key>AuthenticationType</key>
+					<string>CHAP</string>
+					<key>Name</key>
+					<string>docomo/ahamo IPv6</string>
+				</dict>
+				<key>PayloadDisplayName</key>
+				<string>docomo/ahamo IPv6 - Cellular Payload</string>
+				<key>PayloadIdentifier</key>
+				<string>com.apple.cellular.0fc076d3-db68-447f-a73b-441b98d4e08d</string>
+				<key>PayloadType</key>
+				<string>com.apple.cellular</string>
+				<key>PayloadUUID</key>
+				<string>0fc076d3-db68-447f-a73b-441b98d4e08d</string>
+				<key>PayloadVersion</key>
+				<integer>1</integer>
+			</dict>
+		</array>
+		<key>PayloadDescription</key>
+		<string>docomo/ahamoでIPv6を有効化してIPv6を使用可能にします｡
+
+APN: http://spmode.ne.jp
+Cellular Payload
+Protocol: IPv6</string>
+		<key>PayloadDisplayName</key>
+		<string>docomo/ahamo IPv6 Enable Profile</string>
+		<key>PayloadIdentifier</key>
+		<string>apn.jp.spmode-ipv6</string>
+		<key>PayloadType</key>
+		<string>Configuration</string>
+		<key>PayloadUUID</key>
+		<string>c7edab59-05d7-44c0-bb8e-64fccbd34c19</string>
+		<key>PayloadVersion</key>
+		<integer>1</integer>
+		<key>TargetDeviceType</key>
+		<integer>0</integer>
+	</dict>
+</plist>
