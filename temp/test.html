@@ -23,7 +23,7 @@
     <h1>AltStore PAL 承認済みソース一覧</h1>
     <div class="container">
         <p>以下のリンクをタップすると、AltStoreが起動してソースを直接追加できます。<br>
-        このページは<strong>開くたびに自動で最新リストを取得</strong>しています（キャッシュなし）。</p>
+        このページは<strong>開くたびに自動で最新リストを取得</strong>しています（現在全47件）。</p>
 
         <div id="status" class="loading">リストを読み込み中...</div>
 
@@ -40,7 +40,13 @@
     </div>
 
     <script>
-        const jsonUrl = "https://cdn.altstore.io/file/altstore/altstore/marketplace-sources.json";
+        // 元のJSON URL
+        const originalUrl = "https://cdn.altstore.io/file/altstore/altstore/marketplace-sources.json";
+        
+        // CORS回避のための無料プロキシ（信頼性が高いものを選択）
+        const proxyUrl = "https://api.allorigins.win/raw?url=";
+        const jsonUrl = proxyUrl + encodeURIComponent(originalUrl);
+
         const listElement = document.getElementById("source-list");
         const statusElement = document.getElementById("status");
         const errorElement = document.getElementById("error");
@@ -48,8 +54,7 @@
 
         async function loadSources() {
             try {
-                // キャッシュを無効化して常に最新を取得
-                const response = await fetch(jsonUrl + "?t=" + new Date().getTime());
+                const response = await fetch(jsonUrl);
                 if (!response.ok) throw new Error("ネットワークエラー: " + response.status);
 
                 const data = await response.json();
@@ -59,7 +64,7 @@
                     throw new Error("ソースが見つかりませんでした。");
                 }
 
-                // 重複除去（identifierが同じものを削除）
+                // 重複除去
                 const uniqueSources = [];
                 const seen = new Set();
                 sources.forEach(source => {
@@ -74,11 +79,11 @@
                     const identifier = encodeURIComponent(source.identifier);
                     const url = `altstore://source?url=${identifier}`;
 
-                    // 簡単な名前推測（ドメイン部分や知ってる名前）
+                    // 名前推測
                     let name = source.identifier.split('/').pop().replace('.json', '').replace('source', '');
                     name = name.charAt(0).toUpperCase() + name.slice(1);
                     
-                    // よく知られた名前を上書き
+                    // よく知られた名前
                     const knownNames = {
                         "marketplace.altstore.io": "AltStore Marketplace",
                         "altstore.ignitedemulator.com": "Ignited Emulators",
@@ -108,12 +113,11 @@
             } catch (err) {
                 statusElement.style.display = "none";
                 errorElement.style.display = "block";
-                errorElement.textContent = "読み込みに失敗しました: " + err.message + "\nしばらく待ってからページを再読み込みしてください。";
+                errorElement.textContent = "読み込みに失敗しました: " + err.message + "\nページを再読み込みしてみてください。プロキシが一時的に不安定な場合があります。";
                 console.error(err);
             }
         }
 
-        // ページ読み込み時に実行
         loadSources();
     </script>
 </body>
