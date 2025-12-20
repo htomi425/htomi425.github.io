@@ -23,7 +23,7 @@
     <h1>AltStore PAL 承認済みソース一覧</h1>
     <div class="container">
         <p>以下のリンクをタップすると、AltStoreが起動してソースを直接追加できます。<br>
-        このページは<strong>開くたびに自動で最新リストを取得</strong>しています（現在全47件）。</p>
+        このページは<strong>開くたびに自動で最新リストを取得</strong>しています。</p>
 
         <div id="status" class="loading">リストを読み込み中...</div>
 
@@ -43,7 +43,7 @@
         // 元のJSON URL
         const originalUrl = "https://cdn.altstore.io/file/altstore/altstore/marketplace-sources.json";
         
-        // CORS回避のための無料プロキシ（信頼性が高いものを選択）
+        // CORS回避プロキシ（安定性が高い）
         const proxyUrl = "https://api.allorigins.win/raw?url=";
         const jsonUrl = proxyUrl + encodeURIComponent(originalUrl);
 
@@ -58,13 +58,14 @@
                 if (!response.ok) throw new Error("ネットワークエラー: " + response.status);
 
                 const data = await response.json();
-                const sources = data.sources || [];
+                // 修正点: "trusted" 配列を使用
+                const sources = data.trusted || [];
 
                 if (sources.length === 0) {
-                    throw new Error("ソースが見つかりませんでした。");
+                    throw new Error("ソースが見つかりませんでした（JSON構造が変わった可能性があります）。");
                 }
 
-                // 重複除去
+                // 重複除去（identifier基準）
                 const uniqueSources = [];
                 const seen = new Set();
                 sources.forEach(source => {
@@ -79,11 +80,12 @@
                     const identifier = encodeURIComponent(source.identifier);
                     const url = `altstore://source?url=${identifier}`;
 
-                    // 名前推測
-                    let name = source.identifier.split('/').pop().replace('.json', '').replace('source', '');
+                    // 名前推測（ファイル名やドメインから）
+                    let name = source.identifier.split('/').pop().replace('.json', '').replace('-', ' ');
                     name = name.charAt(0).toUpperCase() + name.slice(1);
-                    
-                    // よく知られた名前
+                    if (name === '' || name.endsWith('.')) name = source.identifier.split('/').slice(-2, -1)[0] || '不明';
+
+                    // よく知られたソースのわかりやすい名前
                     const knownNames = {
                         "marketplace.altstore.io": "AltStore Marketplace",
                         "altstore.ignitedemulator.com": "Ignited Emulators",
@@ -92,7 +94,8 @@
                         "get.furaffinity.app/altstore": "FurAffinity",
                         "hottubapp.io/altstore/pal": "HotTub PAL",
                         "i.cizzuk.net/altstore/source.pal.json": "Cizzuk PAL",
-                        "xitrix.github.io/itorrent/altstoreeu.json": "iTorrent EU"
+                        "xitrix.github.io/itorrent/altstoreeu.json": "iTorrent EU",
+                        "f000.backblazeb2.com/file/rileytestut/sources/altstore-classic.json": "AltStore Classic"
                     };
                     if (knownNames[source.identifier]) {
                         name = knownNames[source.identifier];
@@ -108,12 +111,12 @@
 
                 statusElement.style.display = "none";
                 const now = new Date().toLocaleString("ja-JP");
-                updateTimeElement.textContent = `最終更新: ${now}（全${uniqueSources.length}件）`;
+                updateTimeElement.textContent = `最終更新: ${now}（全${uniqueSources.length}件、重複除去後）`;
 
             } catch (err) {
                 statusElement.style.display = "none";
                 errorElement.style.display = "block";
-                errorElement.textContent = "読み込みに失敗しました: " + err.message + "\nページを再読み込みしてみてください。プロキシが一時的に不安定な場合があります。";
+                errorElement.textContent = "読み込みに失敗しました: " + err.message + "\nページを再読み込みするか、プロキシを変更してみてください。";
                 console.error(err);
             }
         }
