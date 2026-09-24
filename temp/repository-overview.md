@@ -1,67 +1,217 @@
-# htomi425/htomi425.github.io 概要
+# インデントにスペースが必要なファイルとタブを使えるファイル
 
-この文書は、GitHub Pages 向けのリポジトリ `htomi425/htomi425.github.io` を簡潔に整理したメモです。実際の公開サイトと併せて、構成の把握や今後の更新方針の参考に使えるようにまとめています。
+ファイル形式ごとに、インデントへスペースまたはタブを使用できるかを整理した一覧です。
 
-## 基本情報
+## 結論
 
-- リポジトリ: `htomi425/htomi425.github.io`
-- リポジトリ ID: `145855940`
-- 説明: `github.ioを使うためだけに用意したリポジトリ`
-- 既定ブランチ: `master`
-- Pages: 有効
-- 公開 URL: `https://gh.hg0.me`
-- 所有者: `htomi425`
-- 主要言語: `HTML`
+このリポジトリや一般的な開発環境では、次の方針が安全です。
 
-## リポジトリの性質
+- **YAML はスペース必須**
+- **Makefile のレシピ行はタブ必須**
+- **Markdown はスペース推奨**
+- **JavaScript / TypeScript / JSON などはタブ使用可**
+- **Biome と Prettier を同じファイルへ適用しない**
 
-このリポジトリは GitHub Pages を利用するための置き場であり、サイト本体の HTML を置く前提で設計されています。
+## スペースが必須または実質必須のファイル
 
-GitHub のメタデータ上の主要言語が `HTML` であることから、静的サイトまたは簡易的なページの集積リポジトリとして扱われていると考えられます。インターネット上で公開されるページや、個人用のリンク集・プロファイル系の資料を置くのに向いています。
+| ファイル種別 | 推奨インデント | 理由 |
+| --- | --- | --- |
+| `.yml` | スペース | YAML の構造インデントにタブを使用できない |
+| `.yaml` | スペース | YAML の構造インデントにタブを使用できない |
+| GitHub Actions workflow | スペース | GitHub Actions の定義は YAML 形式 |
+| `dependabot.yml` | スペース | Dependabot の設定は YAML 形式 |
+| Kubernetes マニフェスト | スペース | Kubernetes の設定は YAML 形式 |
+| Ansible playbook | スペース | Ansible の設定は YAML 形式 |
+| YAML front matter | スペース | front matter 内の YAML 構造にタブを使用できない |
 
-## トップレベル構成
+このリポジトリでは、少なくとも次のファイルをスペースで統一します。
 
-現在のルート直下には、主に次の要素があります。
+```text
+.github/workflows/*.yml
+.github/workflows/*.yaml
+.github/dependabot.yml
+```
 
-- `README.md`：リポジトリの説明と導線
-- `CNAME`：カスタムドメイン設定用のファイル
-- `Mirrativ/`：Mirrativ 関連または個別ページ/資料の置き場
-- `Profile/`：プロファイル関連の構成や設定ファイルの置き場
-- `temp/`：試験的なデータや一時的なファイル置き場
+YAML のインデントは、Prettier の既定値である **スペース 2 個**に任せるのが一般的です。
 
-## 言語構成について
+```yaml
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+```
 
-GitHub 上ではこのリポジトリの主要言語として `HTML` が示されています。つまり、
+## タブを使用できるファイル
 
-- 主要コンテンツは静的 HTML ベース
-- CSS/JS を併用している可能性はあるが、全体としては HTML 中心
-- GitHub Pages の用途としては軽量な構成が想定される
+以下のファイル形式では、通常、インデントにタブを使用できます。
 
-この種のリポジトリでは、ページ単体の HTML と、関連する設定ファイル（`CNAME`、`README`、各種 profile など）が中心になるのが自然です。
+| ファイル種別 | タブ使用 | 備考 |
+| --- | --- | --- |
+| `.js` | 可 | Biome のタブ設定と相性がよい |
+| `.jsx` | 可 | Biome のタブ設定と相性がよい |
+| `.ts` | 可 | Biome のタブ設定と相性がよい |
+| `.tsx` | 可 | Biome のタブ設定と相性がよい |
+| `.json` | 可 | JSON の空白としてタブを使用できる |
+| `.jsonc` | 可 | JSONC の空白としてタブを使用できる |
+| `.css` | 可 | 構文上、タブを使用できる |
+| `.scss` | 可 | 構文上、タブを使用できる |
+| `.less` | 可 | 構文上、タブを使用できる |
+| `.c` | 可 | C の空白としてタブを使用できる |
+| `.h` | 可 | C/C++ ヘッダーの空白としてタブを使用できる |
+| `.ps1` | 可 | PowerShell の空白としてタブを使用できる |
+| `.sh` | 可 | シェルスクリプトの空白としてタブを使用できる |
+| `.bash` | 可 | Bash スクリプトの空白としてタブを使用できる |
+| `.cmd` | 可 | バッチファイルの空白としてタブを使用できる |
+| `.bat` | 可 | バッチファイルの空白としてタブを使用できる |
+| `.html` | 可 | HTML の空白としてタブを使用できる |
+| `.xml` | 可 | XML の空白としてタブを使用できる |
+| `.svg` | 可 | XML と同様にタブを使用できる |
+| `.sql` | 可 | SQL の空白としてタブを使用できる |
+| `.toml` | 通常可 | プロジェクトの規約やツール設定を優先する |
+| `.ini` | 通常可 | 使用するパーサーやプロジェクト規約を優先する |
+| `.cfg` | 通常可 | 使用するパーサーやプロジェクト規約を優先する |
+| `.conf` | 通常可 | 使用するパーサーやプロジェクト規約を優先する |
 
-## 参考: 現在のディレクトリの見立て
+「タブを使用できる」は、必ずタブにすべきという意味ではありません。フォーマッターや既存コードの規約がある場合は、それに合わせます。
 
-- `Profile/`：個人プロフィールやネットワーク設定資料を置く用途に使われている
-- `Mirrativ/`：特定サービスや個別コンテンツ向けのページ群を収める用途に使われていると見られる
-- `temp/`：試作・検証用の HTML やテキストファイルを置くための領域
+## タブが必須のもの
 
-## 運用の観点
+### Makefile のレシピ行
 
-公開リポジトリとしては、次のような整理が有効です。
+従来の `make` では、ターゲットに続くコマンド行の先頭にタブが必要です。
 
-1. 定番のページやポータル情報はルートに近い場所に置く
-2. まとまったテーマごとの資料はサブディレクトリ化する
-3. 試験・未確定データは `temp/` に隔離する
-4. `README.md` で導線をまとめる
+```makefile
+build:
+	echo "build"
+```
 
-## まとめ
+このタブをスペースに置き換えると、次のようなエラーになることがあります。
 
-`htomi425/htomi425.github.io` は、GitHub Pages を使うための静的サイト用リポジトリであり、主に HTML を基盤にした構成です。`Profile/` や `Mirrativ/` などからテーマごとに資料を整理し、`temp/` には検証用データを残す設計が自然で、今後もこの整理方針が有効です。
+```text
+*** missing separator.  Stop.
+```
 
-必要に応じて、次のような文書を追加できます。
+ただし、Makefile のすべての行でタブが必須という意味ではありません。特に、変数定義やターゲット定義は通常の形式で記述します。
 
-- `Profile/` に関する説明
-- `Mirrativ/` の用途整理
-- `temp/` のファイル管理ルール
-- GitHub Pages の公開手順メモ
+## Markdown の扱い
 
+Markdown は仕様上タブを扱える箇所もありますが、タブの位置によってはコードブロックやネストしたリストとして解釈されます。
+
+```markdown
+- item
+  - nested item
+```
+
+行頭のタブは、インデント付きコードブロックとして解釈される可能性があります。
+
+```markdown
+	code block
+```
+
+そのため、Markdown はスペースを推奨します。さらに、Prettier のバージョン差異によって折り返し・リスト・テーブルの整形結果が変わる場合は、Markdown に対する Prettier の検査を無効化する方が安定します。
+
+```yaml
+VALIDATE_MARKDOWN_PRETTIER: false
+```
+
+## フォーマッターの役割分担
+
+Biome と Prettier が同じファイルを整形すると、設定差によって無限に差分が発生することがあります。
+
+```text
+Biome    -> タブへ変換
+Prettier -> スペースへ変換
+Biome    -> タブへ戻す
+Prettier -> スペースへ戻す
+```
+
+この問題を避けるため、ファイル種別ごとに担当を分けます。
+
+| ファイル | 推奨する担当 | インデント |
+| --- | --- | --- |
+| JavaScript / TypeScript | Biome | タブ |
+| JSON / JSONC | Biome | タブ |
+| YAML | Prettier または YAML 専用 lint | スペース |
+| Markdown | 必要に応じて Markdown lint | スペース推奨 |
+| PowerShell | PowerShell の既存規約 | タブ使用可 |
+| C / C ヘッダー | C 用フォーマッター | タブ使用可 |
+
+つまり、**JSON は Biome のみ、YAML は Prettier のみ、Markdown は Prettier を無効化**という構成が安全です。
+
+## `.editorconfig` の例
+
+エディター側でもファイル種別ごとの方針を統一する場合は、次のように設定できます。
+
+```ini
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+indent_style = space
+indent_size = 2
+
+[Makefile]
+indent_style = tab
+```
+
+## このリポジトリでの推奨一覧
+
+### スペースで統一
+
+```text
+*.yml
+*.yaml
+.github/workflows/*
+.github/dependabot.yml
+*.md
+```
+
+### タブを使用可能
+
+```text
+*.json
+*.jsonc
+*.js
+*.jsx
+*.ts
+*.tsx
+*.css
+*.scss
+*.less
+*.c
+*.h
+*.ps1
+*.sh
+*.bash
+*.cmd
+*.bat
+*.html
+*.xml
+*.svg
+*.sql
+```
+
+### タブ必須
+
+```text
+Makefile のレシピ行
+```
+
+## 最終方針
+
+- YAML はスペース 2 個で統一する
+- JavaScript / TypeScript / JSON は Biome のタブ設定を使用する
+- Markdown はスペースを推奨し、Prettier のバージョン差異で問題が出る場合は検査を無効化する
+- Makefile のレシピ行だけはタブを維持する
+- Biome と Prettier を同一ファイルへ適用しない
